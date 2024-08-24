@@ -1,29 +1,18 @@
 import 'dotenv/config';
-import { getRPSChoices } from './game.js';
-import { capitalize, InstallGlobalCommands } from './utils.js';
+import { InstallGlobalCommands } from './utils.js';
 
-// Get the game choices from game.js
-function createCommandChoices() {
-  const choices = getRPSChoices();
-  const commandChoices = [];
-
-  for (let choice of choices) {
-    commandChoices.push({
-      name: capitalize(choice),
-      value: choice.toLowerCase(),
-    });
-  }
-
-  return commandChoices;
-}
+// Define the "quotes" command
+const QUOTES_COMMAND = {
+  name: 'quotes',
+  description: 'Get a random quote',
+  type: 1,
+};
 
 // Simple test command
 const TEST_COMMAND = {
   name: 'test',
   description: 'Basic command',
   type: 1,
-  integration_types: [0, 1],
-  contexts: [0, 1, 2],
 };
 
 // Command containing options
@@ -36,14 +25,24 @@ const CHALLENGE_COMMAND = {
       name: 'object',
       description: 'Pick your object',
       required: true,
-      choices: createCommandChoices(),
+      choices: [
+        { name: 'Rock', value: 'rock' },
+        { name: 'Paper', value: 'paper' },
+        { name: 'Scissors', value: 'scissors' },
+      ],
     },
   ],
   type: 1,
-  integration_types: [0, 1],
-  contexts: [0, 2],
 };
 
-const ALL_COMMANDS = [TEST_COMMAND, CHALLENGE_COMMAND];
+// Define the "jokes" command
+const JOKES_COMMAND = {
+  name: 'jokes',
+  description: 'Get a list of random jokes',
+  type: 1,
+};
+
+// Register all commands
+const ALL_COMMANDS = [TEST_COMMAND, CHALLENGE_COMMAND, QUOTES_COMMAND, JOKES_COMMAND];
 
 InstallGlobalCommands(process.env.APP_ID, ALL_COMMANDS);
